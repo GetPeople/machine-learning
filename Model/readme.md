@@ -6,6 +6,6 @@
 
 - [ ] coba pakai transfer learning -> vgg, mobilenet, xception, dll -> Ariq
 
-- [ ] coba hyperparameter tuning -> layers, learning rate, dll -> Yoga
+- [x] coba hyperparameter tuning -> layers, learning rate, dll -> Yoga
 
 - [ ] PR di function training
