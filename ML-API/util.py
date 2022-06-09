@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import pandas as pd
 import tensorflow.keras.backend as K
 import cv2
 import json
@@ -44,7 +45,8 @@ def generate_paths(base):
         paths.append(path)
     return paths
 
-def convert_database(base):
+def convert_database():
+    base = 'F:/ml-api/database_wajah/'
     paths = generate_paths(base)
     images = crop_edit_image(paths)
     for image,path in zip(images,paths):
@@ -64,7 +66,6 @@ def take_image(base):
         images.append(image)
     return images, paths
 
-
 # Take image from the path, convert to array, 
 # crop the image, convert to grayscale, resize, and 
 # convert to array
@@ -74,10 +75,7 @@ def crop_edit_image(paths):
       image = cv2.imread(path, cv2.IMREAD_UNCHANGED)
       image = cv2.cvtColor(image, cv2.COLOR_BGRA2RGB)
       image = cropping_image(image)
-      if os.path.splitext(path)[1] == ".png":
-        image = cv2.cvtColor(image, cv2.COLOR_RGBA2GRAY)
-      elif os.path.splitext(path)[1] == ".jpg":
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+      image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
       image = Image.fromarray(image)
       image = image.resize((64,64))
       image = np.asarray(image) / 255
@@ -102,13 +100,33 @@ def pairing_image(test, database, n_images):
     return np.array(image_pair)
 
 # Predict result
-def predict(model, pair, n_images, paths):
+def sort_path(model, pair, n_images, paths_to_database):
     scores = []
     score = model.predict([pair[:, 0, :], pair[:, 1, :]])
     scores.append(score)
     result = [scores[0][i][0] for i in range(n_images)]
-    dict_from_list = dict(zip(result, paths))
+    dict_from_list = dict(zip(result, paths_to_database))
                 
     sort_dictionary = dict(sorted(dict_from_list.items(), key=lambda item: item[0], reverse = True)) 
     sorted_path = [values for key, values in sort_dictionary.items()]
-    return json.dumps(sorted_path[:10])
+    return sorted_path
+
+def predict(model, pair, n_images, paths_to_database, path_to_csv):
+    information = {}
+    paths = sort_path(model, pair, n_images, paths_to_database)
+    img_id = [path.split("/")[-1].split(".")[0] for path in paths]
+    identitas = pd.read_csv(path_to_csv)
+    identitas = identitas.to_dict()
+    for index, path in zip(img_id, paths):
+        index = int(index)
+        information[index-1] = {
+            'Nama' : identitas['nama_lengkap'][index-1], 
+            'Jenis Kelamin' : identitas['jenis_kelamin'][index-1],
+            'Tempat Lahir' : identitas['tempat_lahir'][index-1], 
+            'Tanggal Lahir' : identitas['tanggal_lahir'][index-1], 
+            'Lokasi Pengungsian' : identitas['lokasi_pengungsian'][index-1], 
+            'NIK' : identitas['nik'][index-1],
+            'Nama Ibu Kandung' : identitas['nama_ibu_kandung'][index-1],
+            'Link Gambar' : path
+        }
+    return json.dumps(information)

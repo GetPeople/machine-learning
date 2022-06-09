@@ -1,6 +1,6 @@
 # Util.py
 import util
-from util import convert_database, convert_image, take_image, pairing_image, predict
+from util import convert_database, convert_image, take_image, pairing_image, predict, sort_path, predict
 
 #Tensorflow
 from tensorflow.keras import Sequential
@@ -14,20 +14,17 @@ from tensorflow.keras.models import load_model
 #Flask
 from flask import Flask, request, jsonify, render_template
 
-import warnings
-warnings.filterwarnings("ignore")
-
 # Import saved model
 model = load_model('my_h5_model.h5', custom_objects={'DistanceLayer' : util.DistanceLayer})
 
 # Initialize Flask server with error handling
 app = Flask(__name__)
 
-@app.route('/refresh_database', methods = ["POST"])
-def reload():
-    convert_database('F:/ml-api/database_wajah/')
+@app.route('/refresh', methods = ["POST"])
+def reload(): 
+    convert_database()
     return render_template('upload.html')
-    
+
 @app.route('/', methods = ["GET", "POST"])
 def home():
     if request.method == "GET":
@@ -49,11 +46,11 @@ def home():
             paired_images = pairing_image(test_image, database, n_images)
 
             # Prediction
-            pred = predict(model, paired_images, n_images, paths)
+            path_to_csv = "F:\ml-api\identitas.csv"
+            pred = predict(model, paired_images, n_images, paths, path_to_csv)
             return pred
         except Exception as e:
             return jsonify({"error": str(e)})
 
 if __name__ == "__main__":
-    app.run(debug=True, use_reloader = False)
-    warnings.filterwarnings("ignore")
+    app.run(debug=True, use_reloader = False, port = 5000)
