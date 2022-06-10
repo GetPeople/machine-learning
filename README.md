@@ -7,7 +7,8 @@
 ## Make a model :
 ### 1. Preparation
   - Load the datasets
-    - Using olivetti face dataset from AT&T Laboratories Cambridge <br>(here's the link to dataset: https://drive.google.com/file/d/14DwboVbHw042bvZSiM7HwBnscamv44pt/view?usp=sharing)
+    - Using olivetti face dataset from AT&T Laboratories Cambridge for training<br>(here's the link to dataset: https://drive.google.com/file/d/14DwboVbHw042bvZSiM7HwBnscamv44pt/view?usp=sharing)
+    - Using database_wajah as our victims simulation database <br>(here's the link to database : )
   - Convert image to :
     - Grayscale
     - Cropped only at the face (using prebuilt model from MTCNN)
@@ -34,9 +35,9 @@
     - unit number in each fully connected layer
     - learning rate for the optimizer
   - Retrain the model using best hyperparameters and got the result :
-    - `loss : 27.44%`
+    - `loss : 29.70%`
     - `accuracy : 99.06%`
-    - `val_loss : 28.89%`
-    - `val_accuracy : 97.50%` 
+    - `val_loss : 32.17%`
+    - `val_accuracy : 98.12%` 
 ### 4. Save model
   - Save best model weight .h5 use `model.save` from tensorflow to google drive <br>(here's the link : https://drive.google.com/file/d/1ZntMb0khSnUU-Cozq2okpkHtYI4XOi9F/view?usp=sharing)
