@@ -1,0 +1,12 @@
+IPython==7.29.0
+matplotlib==3.2.2
+numpy==1.22.3
+pandas==1.4.2
+opencv-python==4.5.5
+Pillow==9.0.1
+mtcnn==0.1.0
+tensorflow==2.8.2
+sklearn==1.1.1
+keras_tuner==1.1.2
+flask==2.1.2
+json==2.0.9
