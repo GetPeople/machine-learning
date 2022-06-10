@@ -34,7 +34,8 @@
     - activation function for all convolutional layers
     - unit number in each fully connected layer
     - learning rate for the optimizer
-  - Retrain the model using best hyperparameters and got the result :
+  - Retrain the model using best hyperparameters and got the result : <br>
+  ![Result](https://drive.google.com/uc?export=view&id=1QSNNZcIKau4FTWqjyZLauEL3qeN8_nCc)
     - `loss : 29.70%`
     - `accuracy : 99.06%`
     - `val_loss : 32.17%`
