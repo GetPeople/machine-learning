@@ -45,16 +45,10 @@ def generate_paths(base):
         paths.append(path)
     return paths
 
-def convert_database():
-    base = 'F:/ml-api/database_wajah/'
+def convert_database(base):
     paths = generate_paths(base)
     images = crop_edit_image(paths)
-    for image,path in zip(images,paths):
-        convert_path = "F:/ml-api/converted/" + path.split("/")[-1]
-        image = image * 255
-        image = Image.fromarray(image)
-        image = image.convert('L')
-        image.save(convert_path)
+    return images, paths
 
 # Take converted image in database
 def take_image(base):

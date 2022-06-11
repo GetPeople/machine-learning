@@ -20,11 +20,6 @@ model = load_model('my_h5_model.h5', custom_objects={'DistanceLayer' : util.Dist
 # Initialize Flask server with error handling
 app = Flask(__name__)
 
-@app.route('/refresh', methods = ["POST"])
-def reload(): 
-    convert_database()
-    return render_template('upload.html')
-
 @app.route('/', methods = ["GET", "POST"])
 def home():
     if request.method == "GET":
@@ -39,7 +34,7 @@ def home():
             test_image = convert_image([image_path])
             
             # Ini diubah sesuai alamat database
-            database, paths = take_image('F:/ml-api/converted/')
+            database, paths = convert_database('F:/ml-api/database_wajah/')
 
             # Make a pair
             n_images = len(database) # Untuk menghitung banyaknya images di database
