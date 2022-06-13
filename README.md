@@ -8,7 +8,7 @@
 ### 1. Preparation
   - Load the datasets
     - Using olivetti face dataset from AT&T Laboratories Cambridge for training<br>(here's the link to dataset: https://drive.google.com/file/d/14DwboVbHw042bvZSiM7HwBnscamv44pt/view?usp=sharing)
-    - Using database_wajah as our victims simulation database <br>(here's the link to database : )
+    - Using database_wajah as our victims simulation database <br>(here's the link to database : https://github.com/GetPeople/machine-learning/tree/main/database_wajah)
   - Convert image to :
     - Grayscale
     - Cropped only at the face (using prebuilt model from MTCNN)
